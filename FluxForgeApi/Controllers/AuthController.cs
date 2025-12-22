@@ -3,8 +3,8 @@ using FluxForgeApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
+using FluxForgeApi.Common;
 
 namespace FluxForgeApi.Controllers
 {
@@ -29,91 +29,104 @@ namespace FluxForgeApi.Controllers
         }
 
         [HttpGet("callback")]
-        public async Task<IActionResult> GitHubCallback([FromQuery] string code)
+        public async Task<ApiResponse<string>> GitHubCallback([FromQuery] string code)
         {
-            if (string.IsNullOrEmpty(code))
-                return BadRequest("Missing code");
-
-            var github = configuration.GetSection("GithubAuth");
-            var clientId = github["ClientId"];
-            var clientSecret = github["ClientSecret"];
-
-            using var httpClient = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/oauth/access_token");
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Content = new FormUrlEncodedContent(new[]
+            try
             {
-                new KeyValuePair<string, string>("client_id", clientId),
-                new KeyValuePair<string, string>("client_secret", clientSecret),
-                new KeyValuePair<string, string>("code", code)
-            });
+                if (string.IsNullOrEmpty(code))
+                    return ApiResponse<string>.Fail("Missing code");
 
-            var response = await httpClient.SendAsync(request);
-            var payload = await response.Content.ReadAsStringAsync();
+                var github = configuration.GetSection("GithubAuth");
+                var clientId = github["ClientId"];
+                var clientSecret = github["ClientSecret"];
 
-            if (!response.IsSuccessStatusCode)
-                return StatusCode((int)response.StatusCode, payload);
+                using var httpClient = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/oauth/access_token");
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("client_id", clientId),
+                    new KeyValuePair<string, string>("client_secret", clientSecret),
+                    new KeyValuePair<string, string>("code", code)
+                });
 
-            var json = JsonDocument.Parse(payload);
-            var accessToken = json.RootElement.GetProperty("access_token").GetString();
-            return Ok(new { accessToken });
+                var response = await httpClient.SendAsync(request);
+                var payload = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                    return ApiResponse<string>.Fail($"GitHub Error: {payload}");
+
+                using var json = JsonDocument.Parse(payload);
+
+                if (json.RootElement.TryGetProperty("access_token", out var tokenElement))
+                {
+                    var accessToken = tokenElement.GetString();
+                    return ApiResponse<string>.Ok(accessToken);
+                }
+
+                return ApiResponse<string>.Fail("Could not retrieve access token from GitHub");
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<string>.Fail(ex.Message);
+            }
         }
 
         [HttpPost("Registration")]
-        public async Task<IActionResult> RegisterUser(UserMainEntity user)
+        public async Task<ApiResponse<string>> RegisterUser(UserMainEntity user)
         {
             try
             {
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+
                 int Id = await authRepository.Registration(user);
-                if (Id == null)
+
+                if (Id <= 0)
                 {
-                    return Ok("User Already Exists");
+                    return ApiResponse<string>.Fail("User Already Exists or Registration Failed");
                 }
-                else
-                {
-                    return Ok("Registration Successful");
-                }
+
+                return ApiResponse<string>.Ok("Registration Successful");
             }
             catch (Exception ex)
             {
-                return BadRequest("Registration failed");
+                return ApiResponse<string>.Fail($"Registration failed: {ex.Message}");
             }
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginUser(UserMainEntity user)
-
+        public async Task<ApiResponse<string>> LoginUser(UserMainEntity user)
         {
             try
             {
                 var ValidateUser = await authRepository.Login(user);
-                if (ValidateUser != null)
+
+                if (ValidateUser == null)
                 {
-                    bool isValid = BCrypt.Net.BCrypt.Verify(user.PasswordHash, ValidateUser.PasswordHash);
-                    if (!isValid)
-                    {
-                        return BadRequest("Invalid Credentials");
-                    }
-                    string token = authRepository.GenerateToken(user);
-                    return Ok(token);
+                    return ApiResponse<string>.Fail("User Not Found");
                 }
-                else
+
+                bool isValid = BCrypt.Net.BCrypt.Verify(user.PasswordHash, ValidateUser.PasswordHash);
+
+                if (!isValid)
                 {
-                    return BadRequest("User Not Found");
+                    return ApiResponse<string>.Fail("Invalid Credentials");
                 }
+
+                string token = authRepository.GenerateToken(ValidateUser); 
+                return ApiResponse<string>.Ok(token);
             }
             catch (Exception ex)
             {
-                return BadRequest("Login Failed");
+                return ApiResponse<string>.Fail($"Invalid Request: {ex.Message}");
             }
         }
 
         [HttpPost("validateToken")]
         [Authorize]
-        public IActionResult ValidateToken()
+        public ApiResponse<string> ValidateToken()
         {
-            return Ok("Token is valid");
+            return ApiResponse<string>.Ok("Token is valid");
         }
     }
 }

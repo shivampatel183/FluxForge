@@ -15,6 +15,16 @@ namespace FluxForgeApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularUI",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:65517", "http://localhost:4200")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -59,12 +69,9 @@ namespace FluxForgeApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAngularUI");
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
