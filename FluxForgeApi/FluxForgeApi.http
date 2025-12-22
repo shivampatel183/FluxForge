@@ -1,0 +1,6 @@
+@FluxForgeApi_HostAddress = http://localhost:5272
+
+GET {{FluxForgeApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

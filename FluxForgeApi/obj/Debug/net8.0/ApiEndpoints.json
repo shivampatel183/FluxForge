@@ -1,0 +1,70 @@
+[
+  {
+    "ContainingType": "FluxForgeApi.Controllers.AuthController",
+    "Method": "GitHubCallback",
+    "RelativePath": "api/Auth/callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FluxForgeApi.Controllers.AuthController",
+    "Method": "GitHubLogin",
+    "RelativePath": "api/Auth/github",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FluxForgeApi.Controllers.AuthController",
+    "Method": "LoginUser",
+    "RelativePath": "api/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "FluxForgeApi.Entity.UserMainEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FluxForgeApi.Controllers.AuthController",
+    "Method": "RegisterUser",
+    "RelativePath": "api/Auth/Registration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "FluxForgeApi.Entity.UserMainEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FluxForgeApi.Controllers.AuthController",
+    "Method": "ValidateToken",
+    "RelativePath": "api/Auth/validateToken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
