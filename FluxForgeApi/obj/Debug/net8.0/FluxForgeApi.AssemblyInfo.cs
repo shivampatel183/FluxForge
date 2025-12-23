@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a3b64dbe2d8655214ceb062c82b4b1a5eeeb0ae")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdb669990d2ad75651891a7dca4fdcf3da4890b3")]
 [assembly: System.Reflection.AssemblyProductAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

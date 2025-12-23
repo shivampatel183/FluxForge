@@ -22,10 +22,13 @@ namespace FluxForgeApi.Business
         public string GetAuthUrl()
         {
             var github = configuration.GetSection("GithubAuth");
-            var ClientId = github["ClientId"];
+            var clientId = github["ClientId"];
+            var redirectUri = github["RedirectUri"];
 
-            var url = $"https://github.com/login/oauth/authorize?client_id={ClientId}&scope=repo,user:email";
-            return url;
+            return $"https://github.com/login/oauth/authorize" +
+                   $"?client_id={clientId}" +
+                   $"&redirect_uri={redirectUri}" +
+                   $"&scope=user:email";
         }
 
         public async Task<int> Registration(UserMainEntity user)

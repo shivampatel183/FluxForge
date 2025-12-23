@@ -38,7 +38,7 @@ namespace FluxForgeApi.Controllers
 
                 var github = configuration.GetSection("GithubAuth");
                 var clientId = github["ClientId"];
-                var clientSecret = github["ClientSecret"];
+                var clientSecret = github["ClientSecrets"];
 
                 using var httpClient = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/oauth/access_token");
@@ -83,7 +83,7 @@ namespace FluxForgeApi.Controllers
 
                 if (Id <= 0)
                 {
-                    return ApiResponse<string>.Fail("User Already Exists or Registration Failed");
+                    return ApiResponse<string>.Fail("User Already Exists");
                 }
 
                 return ApiResponse<string>.Ok("Registration Successful");
@@ -101,7 +101,7 @@ namespace FluxForgeApi.Controllers
             {
                 var ValidateUser = await authRepository.Login(user);
 
-                if (ValidateUser == null)
+                if (ValidateUser.Email == "")
                 {
                     return ApiResponse<string>.Fail("User Not Found");
                 }
