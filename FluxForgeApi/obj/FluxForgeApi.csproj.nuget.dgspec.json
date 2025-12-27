@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj": {}
+    "C:\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj": {}
   },
   "projects": {
-    "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj": {
+    "C:\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
+        "projectUniqueName": "C:\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
         "projectName": "FluxForgeApi",
-        "projectPath": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
+        "projectPath": "C:\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
         "packagesPath": "C:\\Users\\Shivam\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\obj\\",
+        "outputPath": "C:\\FluxForge\\FluxForge\\FluxForgeApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
