@@ -2357,11 +2357,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Shivam\\Desktop\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
+      "projectUniqueName": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
       "projectName": "FluxForgeApi",
-      "projectPath": "C:\\Users\\Shivam\\Desktop\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
+      "projectPath": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\FluxForgeApi.csproj",
       "packagesPath": "C:\\Users\\Shivam\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Shivam\\Desktop\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\obj\\",
+      "outputPath": "D:\\Study\\FluxForge\\FluxForge\\FluxForgeApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

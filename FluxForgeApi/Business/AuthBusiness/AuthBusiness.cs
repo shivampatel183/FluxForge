@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using FluxForgeApi.Entity;
-using FluxForgeApi.Repository;
 using Dapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Azure;
@@ -8,7 +7,8 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-namespace FluxForgeApi.Business
+using FluxForgeApi.Repository.AuthRepository;
+namespace FluxForgeApi.Business.Auth
 {
     public class AuthBusiness : IAuthRepository
     {
@@ -19,29 +19,18 @@ namespace FluxForgeApi.Business
             this.configuration = configuration;
             _db = dbConnection;
         }
-        public string GetAuthUrl()
-        {
-            var github = configuration.GetSection("GithubAuth");
-            var clientId = github["ClientId"];
-            var redirectUri = github["RedirectUri"];
-
-            return $"https://github.com/login/oauth/authorize" +
-                   $"?client_id={clientId}" +
-                   $"&redirect_uri={redirectUri}" +
-                   $"&scope=user:email";
-        }
-
-        public async Task<int> Registration(UserMainEntity user)
+        
+        public async Task<int> Registration(AuthMainEntity user)
         {
             return await _db.ExecuteAsync("User_Registration", user, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<UserEntity> Login(UserMainEntity user)
+        public async Task<AuthEntity> Login(AuthMainEntity user)
         {
-            return await _db.QueryFirstOrDefaultAsync<UserEntity>("User_Login", user, commandType: CommandType.StoredProcedure);
+            return await _db.QueryFirstOrDefaultAsync<AuthEntity>("User_Login", user, commandType: CommandType.StoredProcedure);
         }
 
-        public String GenerateToken(UserMainEntity user)
+        public string GenerateToken(AuthMainEntity user)
         {
             var claims = new List<Claim>
             {

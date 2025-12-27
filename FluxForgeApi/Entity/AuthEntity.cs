@@ -1,10 +1,10 @@
 ﻿namespace FluxForgeApi.Entity
 {
-    public class UserMainEntity
+    public class AuthMainEntity
     {
-        public UserMainEntity()
+        public AuthMainEntity()
         {
-            UserMainEntityDefaultValue();
+            AuthMainEntityDefaultValue();
         }
 
         public string DisplayName { get; set; }
@@ -12,7 +12,7 @@
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public void UserMainEntityDefaultValue()
+        public void AuthMainEntityDefaultValue()
         {
             DisplayName = "";
             Email = "";
@@ -21,16 +21,16 @@
         }
     }
 
-    public class UserEntity : UserMainEntity
+    public class AuthEntity : AuthMainEntity
     {
-        public UserEntity()
+        public AuthEntity()
         {
-            UserEntityDefaultValue();
+            AuthEntityDefaultValue();
         }
         public string GithubId { get; set; }
         public string GithubToken { get; set; }
 
-        public void UserEntityDefaultValue()
+        public void AuthEntityDefaultValue()
         {
             GithubId = "";
             GithubToken = "";

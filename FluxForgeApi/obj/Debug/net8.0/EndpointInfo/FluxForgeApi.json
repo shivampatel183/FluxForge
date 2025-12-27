@@ -5,56 +5,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Auth/github": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/callback": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [
-          {
-            "name": "code",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Auth/Registration": {
       "post": {
         "tags": [
@@ -64,17 +14,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             }
           }
@@ -112,17 +62,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserMainEntity"
+                "$ref": "#/components/schemas/AuthMainEntity"
               }
             }
           }
@@ -179,28 +129,61 @@
           }
         }
       }
+    },
+    "/api/GithubAuth/github": {
+      "get": {
+        "tags": [
+          "GithubAuth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GithubAuth/callback": {
+      "get": {
+        "tags": [
+          "GithubAuth"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "StringApiResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "data": {
-            "type": "string",
-            "nullable": true
-          },
-          "error": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserMainEntity": {
+      "AuthMainEntity": {
         "type": "object",
         "properties": {
           "displayName": {
@@ -218,6 +201,23 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

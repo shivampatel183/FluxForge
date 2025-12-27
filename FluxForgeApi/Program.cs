@@ -1,11 +1,12 @@
 
 using System.Data;
-using FluxForgeApi.Business;
-using FluxForgeApi.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluxForgeApi.Business.Auth;
+using FluxForgeApi.Repository.AuthRepository;
+using FluxForgeApi.Business.AuthBusiness;
 
 namespace FluxForgeApi
 {
@@ -28,10 +29,12 @@ namespace FluxForgeApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpClient();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IAuthRepository, AuthBusiness>();
+            builder.Services.AddScoped<IGithubAuthRepository, GithubAuthBusiness>();
 
             builder.Services.AddScoped<IDbConnection>(Sp =>
             {
