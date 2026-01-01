@@ -53,6 +53,8 @@ namespace FluxForgeApi.Controllers.AuthController
                     });
                 }
                 
+
+
                 return ApiResponse<string>.Fail("Could not retrieve access token from GitHub");
             }
             catch (Exception ex)

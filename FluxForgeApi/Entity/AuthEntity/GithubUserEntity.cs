@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FluxForgeApi.Entity
+namespace FluxForgeApi.Entity.AuthEntity
 {
     public class GithubUserEntity
     {

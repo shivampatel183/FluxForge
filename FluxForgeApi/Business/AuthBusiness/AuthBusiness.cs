@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using FluxForgeApi.Entity;
 using Dapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Azure;
@@ -8,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using FluxForgeApi.Repository.AuthRepository;
+using FluxForgeApi.Entity.AuthEntity;
 namespace FluxForgeApi.Business.Auth
 {
     public class AuthBusiness : IAuthRepository

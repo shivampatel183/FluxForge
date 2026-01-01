@@ -1,10 +1,10 @@
-﻿using FluxForgeApi.Entity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using FluxForgeApi.Common;
 using FluxForgeApi.Repository.AuthRepository;
+using FluxForgeApi.Entity.AuthEntity;
 
 namespace FluxForgeApi.Controllers.AuthController
 { 

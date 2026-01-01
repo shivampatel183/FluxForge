@@ -5,7 +5,7 @@ using System.Text.Json;
 using FluxForgeApi.Repository.AuthRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using FluxForgeApi.Entity;
+using FluxForgeApi.Entity.AuthEntity;
 
 namespace FluxForgeApi.Business.AuthBusiness
 {

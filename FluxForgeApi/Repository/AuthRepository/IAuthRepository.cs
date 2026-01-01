@@ -1,4 +1,4 @@
-﻿using FluxForgeApi.Entity;
+﻿using FluxForgeApi.Entity.AuthEntity;
 
 namespace FluxForgeApi.Repository.AuthRepository
 {
