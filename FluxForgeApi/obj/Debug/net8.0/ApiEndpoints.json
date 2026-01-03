@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "user",
-        "Type": "FluxForgeApi.Entity.AuthMainEntity",
+        "Type": "FluxForgeApi.Entity.AuthEntity.AuthMainEntity",
         "IsRequired": true
       }
     ],
@@ -35,7 +35,7 @@
     "Parameters": [
       {
         "Name": "user",
-        "Type": "FluxForgeApi.Entity.AuthMainEntity",
+        "Type": "FluxForgeApi.Entity.AuthEntity.AuthMainEntity",
         "IsRequired": true
       }
     ],

@@ -37,7 +37,7 @@ namespace FluxForgeApi.Controllers.AuthController
                     return ApiResponse<string>.Fail("User Already Exists");
                 }
 
-                return ApiResponse<string>.Ok("Registration Successful");
+                return ApiResponse<string>.Ok(null,"Registration Successful");
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace FluxForgeApi.Controllers.AuthController
         [Authorize]
         public ApiResponse<string> ValidateToken()
         {
-            return ApiResponse<string>.Ok("Token is valid");
+            return ApiResponse<string>.Ok(null,"Token is valid");
         }
     }
 }

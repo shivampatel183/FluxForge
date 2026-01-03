@@ -7,6 +7,7 @@ using System.Text;
 using FluxForgeApi.Business.Auth;
 using FluxForgeApi.Repository.AuthRepository;
 using FluxForgeApi.Business.AuthBusiness;
+using FluxForgeApi.Common.http;
 
 namespace FluxForgeApi
 {
@@ -26,10 +27,15 @@ namespace FluxForgeApi
                               .AllowAnyHeader();
                     });
             });
+            builder.Services.AddHttpClient<IGitHubHttpClient, GitHubHttpClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.github.com/");
+                client.Timeout = TimeSpan.FromSeconds(30);
+            });
+
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddHttpClient();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -64,7 +70,6 @@ namespace FluxForgeApi
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

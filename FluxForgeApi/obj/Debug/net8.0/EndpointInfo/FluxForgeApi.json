@@ -215,6 +215,10 @@
             "type": "string",
             "nullable": true
           },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
           "error": {
             "type": "string",
             "nullable": true

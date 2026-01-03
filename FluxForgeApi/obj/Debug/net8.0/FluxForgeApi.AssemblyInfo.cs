@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("2d654668-061a-4935-8126-e7e156291315")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c61191621112e2065d6a9da7c42e0bd2ec72f5dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+241868c593b5a30d1e039728f0ca2e503c12c57c")]
 [assembly: System.Reflection.AssemblyProductAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FluxForgeApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

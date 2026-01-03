@@ -3,9 +3,8 @@ using FluxForgeApi.Common;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using FluxForgeApi.Repository.AuthRepository;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using FluxForgeApi.Entity.AuthEntity;
+using FluxForgeApi.Common.http;
 
 namespace FluxForgeApi.Business.AuthBusiness
 {
@@ -13,13 +12,15 @@ namespace FluxForgeApi.Business.AuthBusiness
     {
         private readonly IConfiguration configuration;
         private readonly HttpClient _httpClient;
+        private readonly IGitHubHttpClient _gitHubHttp;
 
-        public GithubAuthBusiness(HttpClient httpClient, IConfiguration configuration)
+        public GithubAuthBusiness(HttpClient httpClient, IConfiguration configuration, IGitHubHttpClient _gitHubHttp)
         {
             this.configuration = configuration;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://api.github.com/");
             _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("FluxForge", "1.0"));
+            _gitHubHttp = _gitHubHttp;
         }
 
         public string GetAuthUrl()
@@ -65,10 +66,9 @@ namespace FluxForgeApi.Business.AuthBusiness
             return null;
         }
 
-        public async Task<GithubUserEntity> GetUserAsync(string accessToken)
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            return await _httpClient.GetFromJsonAsync<GithubUserEntity>("user");
+        public Task<GithubUserEntity> GetUserAsync(string accessToken)
+        { 
+            return _gitHubHttp.GetAsync<GithubUserEntity>("user", accessToken);
         }
 
     }

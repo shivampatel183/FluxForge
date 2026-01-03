@@ -1,11 +1,7 @@
 ﻿using FluxForgeApi.Common;
 using FluxForgeApi.Repository.AuthRepository;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using FluxForgeApi.Entity;
+using FluxForgeApi.Entity.AuthEntity;
 
 namespace FluxForgeApi.Controllers.AuthController
 {
@@ -43,7 +39,7 @@ namespace FluxForgeApi.Controllers.AuthController
                 {
                     Email = user.Email
                 });
-                if (existingUser == null)
+                if (existingUser.Email == "")
                 {
                     await authRepository.Registration(new AuthMainEntity
                     {
@@ -52,14 +48,15 @@ namespace FluxForgeApi.Controllers.AuthController
                         PasswordHash = Guid.NewGuid().ToString()
                     });
                 }
-                
+                return ApiResponse<string>.Ok(authRepository.GenerateToken(new AuthMainEntity
+                {
+                    Email = user.Email
+                }));
 
-
-                return ApiResponse<string>.Fail("Could not retrieve access token from GitHub");
             }
             catch (Exception ex)
             {
-                return ApiResponse<string>.Fail(ex.Message);
+                return ApiResponse<string>.Fail("Could not retrieve access token from GitHub");
             }
         }
     }
