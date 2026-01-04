@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "FluxForgeApi.Common.ApiResponse\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "FluxForgeApi.Common.ApiResponse\u00601[[FluxForgeApi.Entity.AuthEntity.LoginResponseDto, FluxForgeApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

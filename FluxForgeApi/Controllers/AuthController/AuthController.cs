@@ -47,7 +47,7 @@ namespace FluxForgeApi.Controllers.AuthController
         }
 
         [HttpPost("Login")]
-        public async Task<ApiResponse<string>> LoginUser(AuthMainEntity user)
+        public async Task<ApiResponse<LoginResponseDto>> LoginUser(AuthMainEntity user)
         {
             try
             {
@@ -55,22 +55,30 @@ namespace FluxForgeApi.Controllers.AuthController
 
                 if (ValidateUser.Email == "")
                 {
-                    return ApiResponse<string>.Fail("User Not Found");
+                    return ApiResponse<LoginResponseDto>.Fail("User Not Found");
                 }
 
                 bool isValid = BCrypt.Net.BCrypt.Verify(user.PasswordHash, ValidateUser.PasswordHash);
 
                 if (!isValid)
                 {
-                    return ApiResponse<string>.Fail("Invalid Credentials");
+                    return ApiResponse<LoginResponseDto>.Fail("Invalid Credentials");
                 }
                 string token = authRepository.GenerateToken(ValidateUser);
 
-                return ApiResponse<string>.Ok(token);
+                LoginResponseDto loginResponseDto = new LoginResponseDto
+                {
+                    Token = token,
+                    DisplayName = ValidateUser.DisplayName,
+                    Email = ValidateUser.Email,
+                    AvatarUrl = ValidateUser.AvatarUrl
+                };
+
+                return ApiResponse<LoginResponseDto>.Ok(loginResponseDto);
             }
             catch (Exception ex)
             {
-                return ApiResponse<string>.Fail($"Invalid Request: {ex.Message}");
+                return ApiResponse<LoginResponseDto>.Fail($"Invalid Request: {ex.Message}");
             }
         }
 

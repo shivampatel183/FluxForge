@@ -44,14 +44,15 @@ namespace FluxForgeApi.Controllers.AuthController
                         Email = user.Email,
                         GithubId = (user.Id).ToString(),
                         GithubToken = accressToken,
-                        PasswordHash = Guid.NewGuid().ToString()
+                        PasswordHash = Guid.NewGuid().ToString(),
+                        AvatarUrl = user.AvatarUrl
                     });
                 }
                 var token = authRepository.GenerateToken(new AuthMainEntity{ Email = user.Email });
                 SetCookie("FluxForgeJwt", token, httpOnly: false);
-                SetCookie("GitHubAccessToken", accressToken , httpOnly: true);
                 SetCookie("UserName", user.Name, httpOnly: false);
                 SetCookie("UserEmail", user.Email, httpOnly: false);
+                SetCookie("UserAvatar", user.AvatarUrl, httpOnly: false);
 
                 return Redirect("http://localhost:4200/github-redirect");
             }
@@ -63,7 +64,18 @@ namespace FluxForgeApi.Controllers.AuthController
 
         #region Private Methods
 
+        private void SetCookie(string key, string value, bool httpOnly)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = httpOnly,
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
 
+            Response.Cookies.Append(key, value, cookieOptions);
+        }
 
         #endregion
     }
