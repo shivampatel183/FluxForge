@@ -14,17 +14,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthMainEntity"
+                "$ref": "#/components/schemas/AuthEntity"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthMainEntity"
+                "$ref": "#/components/schemas/AuthEntity"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthMainEntity"
+                "$ref": "#/components/schemas/AuthEntity"
               }
             }
           }
@@ -158,24 +158,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StringApiResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -183,6 +166,36 @@
   },
   "components": {
     "schemas": {
+      "AuthEntity": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "githubId": {
+            "type": "string",
+            "nullable": true
+          },
+          "githubToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AuthMainEntity": {
         "type": "object",
         "properties": {

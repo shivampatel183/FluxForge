@@ -25,13 +25,10 @@ namespace FluxForgeApi.Controllers.AuthController
         }
 
         [HttpGet("callback")]
-        public async Task<ApiResponse<string>> GitHubCallback([FromQuery] string code)
+        public async Task<IActionResult> GitHubCallback([FromQuery] string code)
         {
             try
             {
-                if (string.IsNullOrEmpty(code))
-                    return ApiResponse<string>.Fail("Missing code");
-
                 var accressToken = await gitAuthRepository.GetAccessTokenAsync(code);
                 var user = await gitAuthRepository.GetUserAsync(accressToken);
 
@@ -41,23 +38,33 @@ namespace FluxForgeApi.Controllers.AuthController
                 });
                 if (existingUser.Email == "")
                 {
-                    await authRepository.Registration(new AuthMainEntity
+                    await authRepository.Registration(new AuthEntity
                     {
                         DisplayName = user.Name,
                         Email = user.Email,
+                        GithubId = (user.Id).ToString(),
+                        GithubToken = accressToken,
                         PasswordHash = Guid.NewGuid().ToString()
                     });
                 }
-                return ApiResponse<string>.Ok(authRepository.GenerateToken(new AuthMainEntity
-                {
-                    Email = user.Email
-                }));
+                var token = authRepository.GenerateToken(new AuthMainEntity{ Email = user.Email });
+                SetCookie("FluxForgeJwt", token, httpOnly: false);
+                SetCookie("GitHubAccessToken", accressToken , httpOnly: true);
+                SetCookie("UserName", user.Name, httpOnly: false);
+                SetCookie("UserEmail", user.Email, httpOnly: false);
 
+                return Redirect("http://localhost:4200/github-redirect");
             }
             catch (Exception ex)
             {
-                return ApiResponse<string>.Fail("Could not retrieve access token from GitHub");
+                return Redirect("http://localhost:4200/login");
             }
         }
+
+        #region Private Methods
+
+
+
+        #endregion
     }
 }

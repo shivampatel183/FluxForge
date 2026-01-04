@@ -14,13 +14,13 @@ namespace FluxForgeApi.Business.AuthBusiness
         private readonly HttpClient _httpClient;
         private readonly IGitHubHttpClient _gitHubHttp;
 
-        public GithubAuthBusiness(HttpClient httpClient, IConfiguration configuration, IGitHubHttpClient _gitHubHttp)
+        public GithubAuthBusiness(HttpClient httpClient, IConfiguration configuration, IGitHubHttpClient gitHubHttp)
         {
             this.configuration = configuration;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://api.github.com/");
             _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("FluxForge", "1.0"));
-            _gitHubHttp = _gitHubHttp;
+            _gitHubHttp = gitHubHttp;
         }
 
         public string GetAuthUrl()
@@ -66,9 +66,23 @@ namespace FluxForgeApi.Business.AuthBusiness
             return null;
         }
 
-        public Task<GithubUserEntity> GetUserAsync(string accessToken)
-        { 
-            return _gitHubHttp.GetAsync<GithubUserEntity>("user", accessToken);
+        public async Task<GithubUserEntity> GetUserAsync(string accessToken)
+        {
+            var user = await _gitHubHttp.GetAsync<GithubUserEntity>("user", accessToken);
+
+            if (string.IsNullOrEmpty(user.Email))
+            {
+                var emails = await _gitHubHttp.GetAsync<List<GitHubEmailEntity>>("user/emails", accessToken);
+
+                var primaryEmail = emails?.FirstOrDefault(e => e.primary);
+
+                if (primaryEmail != null)
+                {
+                    user.Email = primaryEmail.email;
+                }
+            }
+
+            return user;
         }
 
     }

@@ -16,4 +16,12 @@ namespace FluxForgeApi.Entity.AuthEntity
         [JsonPropertyName("name")]
         public string Name { get; set; }
     }
+
+    public class GitHubEmailEntity
+    {
+        public string email { get; set; }
+        public bool primary { get; set; }
+        public bool verified { get; set; }
+        public string visibility { get; set; }
+    }
 }

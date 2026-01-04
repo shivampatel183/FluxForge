@@ -35,7 +35,7 @@
     "Parameters": [
       {
         "Name": "user",
-        "Type": "FluxForgeApi.Entity.AuthEntity.AuthMainEntity",
+        "Type": "FluxForgeApi.Entity.AuthEntity.AuthEntity",
         "IsRequired": true
       }
     ],
@@ -85,17 +85,7 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "FluxForgeApi.Common.ApiResponse\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "FluxForgeApi.Controllers.AuthController.GithubAuthController",

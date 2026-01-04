@@ -20,9 +20,9 @@ namespace FluxForgeApi.Business.Auth
             _db = dbConnection;
         }
         
-        public async Task<int> Registration(AuthMainEntity user)
+        public async Task<Guid?> Registration(AuthEntity user)
         {
-            return await _db.ExecuteAsync("User_Registration", user, commandType: CommandType.StoredProcedure);
+            return await _db.QuerySingleOrDefaultAsync<Guid?>("User_Registration", user, commandType: CommandType.StoredProcedure);
         }
 
         public async Task<AuthEntity> Login(AuthMainEntity user)

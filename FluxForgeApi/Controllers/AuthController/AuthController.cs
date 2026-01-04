@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using FluxForgeApi.Common;
 using FluxForgeApi.Repository.AuthRepository;
 using FluxForgeApi.Entity.AuthEntity;
+using Azure.Core;
 
 namespace FluxForgeApi.Controllers.AuthController
 { 
@@ -24,15 +25,15 @@ namespace FluxForgeApi.Controllers.AuthController
         
 
         [HttpPost("Registration")]
-        public async Task<ApiResponse<string>> RegisterUser(AuthMainEntity user)
+        public async Task<ApiResponse<string>> RegisterUser(AuthEntity user)
         {
             try
             {
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
 
-                int Id = await authRepository.Registration(user);
+                Guid? Id = await authRepository.Registration(user);
 
-                if (Id <= 0)
+                if (Id == null)
                 {
                     return ApiResponse<string>.Fail("User Already Exists");
                 }
@@ -63,8 +64,8 @@ namespace FluxForgeApi.Controllers.AuthController
                 {
                     return ApiResponse<string>.Fail("Invalid Credentials");
                 }
+                string token = authRepository.GenerateToken(ValidateUser);
 
-                string token = authRepository.GenerateToken(ValidateUser); 
                 return ApiResponse<string>.Ok(token);
             }
             catch (Exception ex)
@@ -79,5 +80,6 @@ namespace FluxForgeApi.Controllers.AuthController
         {
             return ApiResponse<string>.Ok(null,"Token is valid");
         }
+
     }
 }
